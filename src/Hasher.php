@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Shift196\AKashLib\Builtin\Blake256Impl;
 use Shift196\AKashLib\Builtin\Groestl256;
 use Shift196\AKashLib\Builtin\Jh256Impl;
+use Shift196\AKashLib\Builtin\Keccak;
 use Shift196\AKashLib\Builtin\Skein256Impl;
 
 final
@@ -44,6 +45,7 @@ final
         Hasher::registerAlgo('BLAKE256', new Blake256Impl());
         Hasher::registerAlgo('GROESTL256', new Groestl256());
         Hasher::registerAlgo('SKEIN256', new Skein256Impl());
+        Hasher::registerAlgo('KECCAK256', Keccak::getInstance());
     }
 
     /**
