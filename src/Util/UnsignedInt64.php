@@ -72,7 +72,7 @@ final
 
     function plus(UnsignedInt64 $oWord)
     {
-        $c       = new UnsignedInt64(0, 0);
+        $c       = UInt64Pool::getObject()->setHiLo(0, 0);
 //  var lowest, lowMid, highMid, highest; //four parts of the whole 64 bit number..
         //need to add the respective parts from each number and the carry if on is present..
         $this_h  = $this->hi & 0xffffffff;
@@ -93,7 +93,7 @@ final
 
     function not()
     {
-        return new UnsignedInt64(~$this->hi, ~$this->lo);
+        return UInt64Pool::getObject()->setHiLo(~$this->hi, ~$this->lo);
     }
 
     function one()
@@ -347,7 +347,7 @@ final
         {
             return $this->rotateLeft(64 - $bits);
         }
-        $c = new UnsignedInt64(0, 0);
+        $c = UInt64Pool::getObject()->setHiLo(0, 0);
         if ($bits === 0)
         {
             $c->lo = $this->lo >> 0;
