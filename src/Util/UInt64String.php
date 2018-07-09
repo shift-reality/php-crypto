@@ -55,19 +55,18 @@ final
         $m    = -1 << (64 - $bits);
 
         if ($bits >= 32)
-            return static::___pack(-1, ($wordHi >> ($bits - 32)) | $m);
+            return static::___pack(
+                    -1
+                    ,
+                    //
+                    ($wordHi >> ($bits - 32)) | $m);
         else
-        {
-
-            $n = ~$m;
-
             return static::___pack(
                     ($wordHi >> $bits) | (-1 << (32 - $bits))
                     ,
                     //
-                    (($wordLo >> $bits & $n) |
+                    (($wordLo >> $bits & ($n = ~$m)) |
                     ($wordHi << (32 - $bits))) & $n);
-        }
     }
 
 }
