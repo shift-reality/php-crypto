@@ -25,6 +25,13 @@ final
         $this->lo = $l; // >>> 0;
     }
 
+    function setHiLo($h, $l)
+    {
+        $this->hi = $h; // >>> 0;
+        $this->lo = $l; // >>> 0;
+        return $this;
+    }
+
     function set(UnsignedInt64 $oWord)
     {
         throw new Exception('No plz');
@@ -92,13 +99,13 @@ final
     function one()
     {
         // throw new Exception('No plz');
-        return new UnsignedInt64(0x0, 0x1);
+        return UInt64Pool::getObject()->setHiLo(0x0, 0x1);
     }
 
     function zero()
     {
         //throw new Exception('No plz');
-        return new UnsignedInt64(0x0, 0x0);
+        return UInt64Pool::getObject()->setHiLo(0x0, 0x0);
     }
 
     function neg()
@@ -178,7 +185,7 @@ final
 
         $c48 += $a48 * $b00 + $a32 * $b16 + $a16 * $b32 + $a00 * $b48;
         $c48 &= 0xFFFF;
-        return new UnsignedInt64((($c48 << 16) | $c32) & 0xffffffff, (($c16 << 16) | $c00 ) & 0xffffffff);
+        return UInt64Pool::getObject()->setHiLo((($c48 << 16) | $c32) & 0xffffffff, (($c16 << 16) | $c00 ) & 0xffffffff);
     }
 
     function shiftLeft($bits)
@@ -186,7 +193,7 @@ final
         $this_h = $this->hi & 0xffffffff;
         $this_l = $this->lo & 0xffffffff;
         $bits   %= 64;
-        $c      = new UnsignedInt64(0, 0);
+        $c      = UInt64Pool::getObject()->setHiLo(0, 0);
         if ($bits === 0)
         {
             return clone $this;
@@ -239,7 +246,7 @@ final
         $this_h   = $this->hi & 0xffffffff;
         $this_l   = $this->lo & 0xffffffff;
         $nmaxBits = PHP_INT_SIZE * 8;
-        $c        = new UnsignedInt64(0, 0);
+        $c        = UInt64Pool::getObject()->setHiLo(0, 0);
         if ($bits >= 32)
         {//больше 32
             $c->hi = -1;
@@ -259,7 +266,7 @@ final
         $bits   %= 64;
         if ($bits === 0)
             return clone $this;
-        $c      = new UnsignedInt64(0, 0);
+        $c      = UInt64Pool::getObject()->setHiLo(0, 0);
         $this_h = $this->hi & 0xffffffff;
         $this_l = $this->lo & 0xffffffff;
         if ($bits >= 32)
@@ -285,7 +292,7 @@ final
         {
             return $this->rotateRight(64 - $bits);
         }
-        $c = new UnsignedInt64(0, 0);
+        $c = UInt64Pool::getObject()->setHiLo(0, 0);
         if ($bits === 0)
         {
             $c->lo = $this->lo >> 0;
@@ -419,7 +426,7 @@ final
         $this_l = $this->lo & 0xffffffff;
         $o_h    = $oWord->hi & 0xffffffff;
         $o_l    = $oWord->lo & 0xffffffff;
-        $c      = new UnsignedInt64(0, 0);
+        $c      = UInt64Pool::getObject()->setHiLo(0, 0);
         $c->hi  = $this_h ^ $o_h;
         $c->lo  = $this_l ^ $o_l;
         return $c; //for chaining..
@@ -440,7 +447,7 @@ final
 //Ands this word with the given other..
     function __and(UnsignedInt64 $oWord)
     {
-        $c     = new UnsignedInt64(0, 0);
+        $c     = UInt64Pool::getObject()->setHiLo(0, 0);
         $c->hi = $this->hi & $oWord->hi;
         $c->lo = $this->lo & $oWord->lo;
         return $c; //for chaining..
@@ -448,7 +455,7 @@ final
 
     function __or(UnsignedInt64 $oWord)
     {
-        $c     = new UnsignedInt64(0, 0);
+        $c     = UInt64Pool::getObject()->setHiLo(0, 0);
         $c->hi = $this->hi | $oWord->hi;
         $c->lo = $this->lo | $oWord->lo;
         return $c; //for chaining..
@@ -457,7 +464,7 @@ final
 //Creates a deep copy of this Word..
     function __clone()
     {
-        return new UnsignedInt64($this->hi, $this->lo);
+        return UInt64Pool::getObject()->setHiLo($this->hi, $this->lo);
     }
 
     function setxor64()
@@ -488,7 +495,7 @@ final
 
 function o_u($h, $l)
 {
-    return new UnsignedInt64($h, $l);
+    return UInt64Pool::getObject()->setHiLo($h, $l);
 }
 
 function xor64()
@@ -504,7 +511,7 @@ function xor64()
         $i--;
     }
     while ($i > 0);
-    return new UnsignedInt64($h, $l);
+    return UInt64Pool::getObject()->setHiLo($h, $l);
 }
 
 function clone64Array(array $arr)
@@ -560,7 +567,7 @@ function swap32Array(array $a)
 
 function xnd64($x, $y, $z)
 {
-    return new UnsignedInt64($x->hi ^ ((~$y->hi) & $z->hi), $x->lo ^ ((~$y->lo) & $z->lo));
+    return UInt64Pool::getObject()->setHiLo($x->hi ^ ((~$y->hi) & $z->hi), $x->lo ^ ((~$y->lo) & $z->lo));
 }
 
 /*
@@ -709,21 +716,21 @@ function bufferEncode64_(&$buffer, $offset, $uint64)
 
 function b2int64($b)
 {
-    return new UnsignedInt64(
+    return UInt64Pool::getObject()->setHiLo(
         ($b[0] << 24) | ($b[1] << 16) | ($b[2] << 8) | $b[3] << 0
         , ($b[4] << 24) | ($b[5] << 16) | ($b[6] << 8) | $b[7] << 0);
 }
 
 function b2int64_B($b)
 {
-    return new UnsignedInt64(
+    return UInt64Pool::getObject()->setHiLo(
         ($b[4] << 24) | ($b[5] << 16) | ($b[6] << 8) | ($b[7] << 0)
         , ($b[0] << 24) | ($b[1] << 16) | ($b[2] << 8) | ($b[3] << 0));
 }
 
 function b2int64_($b)
 {
-    return new UnsignedInt64(
+    return UInt64Pool::getObject()->setHiLo(
         ($b[0] << 0) | ($b[1] << 8) | ($b[2] << 16) | $b[3] << 24
         , ($b[4] << 0) | ($b[5] << 8) | ($b[6] << 16) | $b[7] << 24);
 }
@@ -743,7 +750,7 @@ function bytes2Int64Buffer($b)
     $j      = 0;
     while ($j < $len)
     {
-        $buffer[$j] = new UnsignedInt64(
+        $buffer[$j] = UInt64Pool::getObject()->setHiLo(
             ($b[$j * 8] << 24) | ($b[$j * 8 + 1] << 16) | ($b[$j * 8 + 2] << 8) | $b[$j * 8 + 3]
             , ($b[$j * 8 + 4] << 24) | ($b[$j * 8 + 5] << 16) | ($b[$j * 8 + 6] << 8) | $b[$j * 8 + 7]);
         $j++;

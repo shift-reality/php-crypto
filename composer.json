@@ -2,7 +2,7 @@
     "type": "library",
     "name": "shift196/lib-akash",
     "description": "AKash it's easy hashing library for PHP.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "license": "Apache-2.0",
     "authors": [
         {
