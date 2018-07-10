@@ -11,7 +11,7 @@ A Pure PHP (without any external PHP-extension) Implementation of BLAKE-256, GRO
 
 1. require library:
 
-`"require": { "shift196/lib-akash" }`
+`"require": { "shift196/lib-akash": "1.0.*" }`
 
 **Usage:**
 
@@ -23,10 +23,16 @@ A Pure PHP (without any external PHP-extension) Implementation of BLAKE-256, GRO
 
 `Hasher::registerAlgo('MYHASH', new MyHashImpl());`
 
-`MyHashImpl` should implement IHashFunction interface.
+`MyHashImpl` should implement `IHashFunction` interface.
 
 2. Make hash of hex-encoded data:
 
 `$algo = 'BLAKE256 or GROESTL256 or JH256 or SKEIN256 or KECCAK256';`
 
 `$hashHex = Hasher::doHash($algo, InputDataSupplier::forHex($dataHex))->hex(TRUE);`
+
+!! Don't use internal classes from `Shift196\AKashLib\Util` it can be changed without any notifications !!
+
+**TODO**:
+
+-use PHPUnit for testing
